@@ -2,7 +2,14 @@
 
 เกมทายคำภาษาไทยที่พัฒนาด้วย ASP.NET Core และ Entity Framework สำหรับวิชา Web Application Development with C# .Net Core Framework ปี 3
 
-![Word Guess Game](https://wordguessgame.fly.dev/)
+<div align="center">
+  <a href="https://wordguessgame.fly.dev/" target="_blank">
+    <img src="wwwroot/image/WordGuess.png" alt="Word Guess Game" width="200"/>
+    <br/>
+    <h3>WordGuessGame</h3>
+    <p><em>คลิกเพื่อเล่นเกม</em></p>
+  </a>
+</div>
 
 ## ภาพรวมโปรเจค
 
