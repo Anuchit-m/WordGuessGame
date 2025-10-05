@@ -1,0 +1,32 @@
+@page
+@model WordGuessGame.Pages.CategoryModel
+@{
+    ViewData["Title"] = "เลือกหมวดหมู่";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper">
+        <h2 class="page-title">เลือกหมวดหมู่</h2>
+        <p class="page-subtitle">เลือกหมวดหมู่คำศัพท์ที่คุณต้องการเล่น</p>
+
+        @if (Model.Categories != null && Model.Categories.Any())
+        {
+            <div class="category-grid">
+                @foreach (var category in Model.Categories)
+                {
+                    <!-- แต่ละปุ่มคือ form ที่จะส่ง CategoryId ไปยังหน้า Gameplay -->
+                    <form method="get" asp-page="/Gameplay">
+                        <input type="hidden" name="categoryId" value="@category.Id" />
+                        <button type="submit" class="btn btn--category">
+                            @category.Name
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+            <p>ไม่พบหมวดหมู่ในระบบ กรุณาติดต่อผู้ดูแล</p>
+        }
+    </div>
+</div>

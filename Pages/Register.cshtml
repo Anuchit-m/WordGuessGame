@@ -1,0 +1,50 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "สร้างบัญชี";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper page-content-wrapper--narrow">
+        <h2 class="page-title page-title--medium">สร้างบัญชี</h2>
+        
+        <form method="post" class="form-container">
+            <div asp-validation-summary="ModelOnly" class="game-message game-message--error"></div>
+            
+            <div class="form-group">
+                <label asp-for="Input.Username" class="form-label"></label>
+                <input asp-for="Input.Username" class="form-input" placeholder="กรอกชื่อผู้ใช้ของคุณ" />
+                <span asp-validation-for="Input.Username" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-input" placeholder="กรอกอีเมลของคุณ" autocomplete="username" />
+                <span asp-validation-for="Input.Email" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-input" placeholder="กรอกรหัสผ่านของคุณ" autocomplete="new-password" />
+                <span asp-validation-for="Input.Password" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-input" placeholder="ยืนยันรหัสผ่านอีกครั้ง" autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="form-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--large">สมัครสมาชิก</button>
+        </form>
+
+        <div class="page-footer">
+            <span>มีบัญชีแล้ว? </span>
+            <a href="/Login" class="page-link">คลิกเพื่อเข้าสู่ระบบ</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

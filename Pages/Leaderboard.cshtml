@@ -1,0 +1,46 @@
+@page
+@model WordGuessGame.Pages.LeaderboardModel
+@{
+    ViewData["Title"] = "ตารางคะแนน";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper">
+        <h2 class="page-title">ตารางคะแนนสูงสุด</h2>
+        <p class="page-subtitle">20 อันดับผู้เล่นที่มีคะแนนสูงสุด</p>
+
+        <div class="leaderboard-container">
+            @if (Model.Scores == null || !Model.Scores.Any())
+            {
+                <p>ยังไม่มีข้อมูลคะแนนในระบบ</p>
+            }
+            else
+            {
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>อันดับ</th>
+                            <th>ผู้เล่น</th>
+                            <th>คะแนน</th>
+                            <th>วันที่เล่น</th>
+                            <th>หมวดหมู่</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Scores.Count; i++)
+                        {
+                            var score = Model.Scores[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@score.UserName</td>
+                                <td>@score.Points.ToString("N0")</td>
+                                <td>@score.PlayedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@score.CategoryName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

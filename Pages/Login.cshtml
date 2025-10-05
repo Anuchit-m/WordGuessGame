@@ -1,0 +1,58 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "เข้าสู่ระบบ";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper page-content-wrapper--narrow">
+        <h2 class="page-title page-title--medium">เข้าสู่ระบบเพื่อเล่นเกม</h2>
+        
+        <!-- Success Message from registration -->
+        @if (Request.Query["success"] == "registered")
+        {
+            <div class="game-message game-message--success">
+                สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ
+            </div>
+        }
+
+        <!-- The form now uses method="post" to submit data to the server -->
+        <form method="post" class="form-container">
+            <!-- This div shows general error messages, like "Invalid login attempt" -->
+            <div asp-validation-summary="ModelOnly" class="game-message game-message--error"></div>
+
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-input" placeholder="กรอกอีเมลของคุณ" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Input.Email" class="form-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-input" placeholder="กรอกรหัสผ่านของคุณ" autocomplete="current-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="form-error"></span>
+            </div>
+
+            <div class="form-group form-group--checkbox">
+                <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--large">
+                เข้าสู่ระบบ
+            </button>
+        </form>
+
+        <div class="page-footer">
+            <span>ยังไม่มีบัญชี? </span>
+            <a href="/Register" class="page-link">คลิกเพื่อสมัคร</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- We only need this partial view for client-side validation -->
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,56 @@
+@page
+@model WordGuessGame.Pages.ProfileModel
+@{
+    ViewData["Title"] = "โปรไฟล์ของฉัน";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper">
+        <h2 class="page-title">โปรไฟล์ของฉัน</h2>
+        <p class="page-subtitle">ดูสถิติและประวัติการเล่นของคุณ</p>
+
+        <div class="profile-grid">
+            <!-- User Info -->
+            <div class="profile-card">
+                <h3>ข้อมูลผู้ใช้</h3>
+                <p><strong>อีเมล:</strong> @Model.Email</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="profile-card">
+                <h3>สถิติรวม</h3>
+                <p><strong>จำนวนเกมที่เล่น:</strong> @Model.GamesPlayed.ToString("N0")</p>
+                <p><strong>คะแนนสูงสุด:</strong> @Model.HighestScore.ToString("N0")</p>
+                <p><strong>คะแนนเฉลี่ย:</strong> @Model.AverageScore.ToString("N2")</p>
+            </div>
+        </div>
+
+        <div class="profile-card" style="margin-top: 2rem;">
+            <h3>ประวัติการเล่น 10 ครั้งล่าสุด</h3>
+            @if (Model.RecentScores == null || !Model.RecentScores.Any())
+            {
+                <p>คุณยังไม่เคยเล่นเกมเลย</p>
+            }
+            else
+            {
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>คะแนน</th>
+                            <th>วันที่เล่น</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var score in Model.RecentScores)
+                        {
+                            <tr>
+                                <td>@score.Points.ToString("N0")</td>
+                                <td>@score.PlayedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

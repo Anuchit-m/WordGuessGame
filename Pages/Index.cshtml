@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "ยินดีต้อนรับ";
+    Layout = "_Layout";
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper page-content-wrapper--medium">
+
+        
+        <!-- Welcome Content -->
+        <h2 class="page-title">ยินดีต้อนรับสู่ Word Guess</h2>
+        <p class="page-subtitle">ทายคำ รับคะแนน และไต่อันดับ ขึ้นเป็น No.1</p>
+        
+        <!-- Action Buttons -->
+        <div class="action-section">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="btn btn--primary" onclick="location.href='/Category'">เล่น</button>
+            }
+            else
+            {
+                <button class="btn btn--primary" onclick="location.href='/Category'">เล่นโดยไม่ต้องเข้าสู่ระบบ</button>
+            }
+            @* <button class="btn btn--primary" onclick="location.href='/Category'">เล่นโดยไม่ต้องเข้าสู่ระบบ</button> *@
+        </div>
+    </div>
+</div>

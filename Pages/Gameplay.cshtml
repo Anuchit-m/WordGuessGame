@@ -1,0 +1,107 @@
+@page
+@model WordGuessGame.Pages.GameplayModel
+@{
+    ViewData["Title"] = "กำลังเล่นเกม";
+    // ฟังก์ชันสำหรับสลับตัวอักษรเพื่อสร้างคำใบ้
+    Func<string, string> ScrambleWord = (word) => {
+        if (string.IsNullOrEmpty(word)) return string.Empty;
+        var r = new Random();
+        return new string(word.ToCharArray().OrderBy(x => r.Next()).ToArray());
+    };
+}
+
+<div class="page-container">
+    <div class="page-content-wrapper page-content-wrapper--narrow">
+        
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info">
+                @TempData["Message"]
+            </div>
+        }
+        
+        @if (Model.CurrentGameState != null && !Model.CurrentGameState.IsGameOver)
+        {
+            <div class="game-stats-bar">
+                <div class="stat-item">
+                    คะแนน: <span id="score">@Model.CurrentGameState.Score</span>
+                </div>
+                <div class="stat-item">
+                    เวลา: <span id="timer">@Model.CurrentGameState.TimeLeft</span>
+                </div>
+            </div>
+
+            <h2 class="page-title page-title--medium">คำใบ้: @ScrambleWord(Model.CurrentGameState.CurrentWord)</h2>
+            <p class="page-subtitle">(@Model.CurrentGameState.CurrentWord.Length ตัวอักษร)</p>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="game-message @(Model.Message == "ถูกต้อง!" ? "game-message--success" : "game-message--error")">
+                    @Model.Message
+                </div>
+            }
+
+            <form method="post" class="form-container" id="guessForm">
+                <div class="form-group">
+                    <input asp-for="UserGuess" class="form-input form-input--large" placeholder="พิมพ์คำตอบของคุณที่นี่" autocomplete="off" autofocus id="guessInput" />
+                </div>
+                <button type="submit" class="btn btn--primary btn--large">เดา</button>
+                <input type="hidden" id="currentTimeLeft" name="currentTimeLeft" value="@Model.CurrentGameState.TimeLeft" />
+            </form>
+        }
+        else
+        {
+             <h2 class="page-title">กำลังโหลดเกม...</h2>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const timerElement = document.getElementById('timer');
+        const guessForm = document.getElementById('guessForm');
+        const guessInput = document.getElementById('guessInput');
+        const currentTimeLeftInput = document.getElementById('currentTimeLeft');
+        
+        if (timerElement) {
+            let timeLeft = parseInt(timerElement.textContent);
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                // อัพเดตเวลาที่เหลือใน hidden input
+                if (currentTimeLeftInput) {
+                    currentTimeLeftInput.value = timeLeft;
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    // ส่งฟอร์มเพื่อบันทึกคะแนนก่อนไปหน้า Leaderboard
+                    if (currentTimeLeftInput) {
+                        currentTimeLeftInput.value = 0;
+                    }
+                    if (guessForm) {
+                        // เพิ่ม hidden input เพื่อบอกว่าหมดเวลา
+                        const timeUpInput = document.createElement('input');
+                        timeUpInput.type = 'hidden';
+                        timeUpInput.name = 'timeUp';
+                        timeUpInput.value = 'true';
+                        guessForm.appendChild(timeUpInput);
+                        
+                        guessForm.submit();
+                    } else {
+                        alert('หมดเวลา!'); 
+                        window.location.href = '/Leaderboard'; 
+                    }
+                }
+            }, 1000);
+        }
+
+        // ล้าง TextField เมื่อหน้าโหลด
+        if (guessInput) {
+            guessInput.value = '';
+            guessInput.focus(); // ให้ focus ที่ input field
+        }
+    </script>
+}
